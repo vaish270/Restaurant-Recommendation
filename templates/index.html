@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Recommendation System</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+       body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url("{{ url_for('static', filename='restaurant.jpeg') }}") no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        th i {
+            margin-right: 6px;
+            color: #28a745;
+        }
+        td i {
+            margin-right: 6px;
+            color: #555;
+        }
+        h3 {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Restaurant Recommendation System</h2>
+        <form method="POST" action="/recommend">
+            <input type="text" name="restaurant_name" placeholder="Enter restaurant name" required />
+            <button type="submit">Get Recommendations</button>
+        </form>
+ 
+        {% if recommendations %}
+            <h3>Recommendations for "{{ name }}":</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-utensils"></i>Restaurant</th>
+                        <th><i class="fas fa-map-marker-alt"></i>Location</th>
+                        <th><i class="fas fa-chair"></i>Type</th>
+                        <th><i class="fas fa-heart"></i>Dish Liked</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in recommendations %}
+                    <tr>
+                        <td><i class="fas fa-store"></i>{{ r.name }}</td>
+                        <td><i class="fas fa-location-dot"></i>{{ r.location }}</td>
+                        <td><i class="fas fa-chair"></i>{{ r.rest_type }}</td>
+                        <td><i class="fas fa-heart"></i>{{ r.dish_liked }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif name %}
+            <p>No similar restaurants found for "{{ name }}".</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+ 
+ 
